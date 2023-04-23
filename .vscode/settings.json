@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["Bcard"]
+  "cSpell.words": ["Bcard"],
+  "editor.smoothScrolling": true,
+  "editor.scrollbar.scrollByPage": true,
+  "editor.stickyScroll.enabled": true
 }
