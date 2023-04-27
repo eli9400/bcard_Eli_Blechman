@@ -8,7 +8,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PhoneIcon from "@mui/icons-material/Phone";
 
-const CardActionBar = () => {
+type Props = {
+  onDelete: (id: string) => void;
+  cardId: string;
+};
+
+const CardActionBar: React.FC<Props> = ({ onDelete, cardId }) => {
   return (
     <>
       <CardActions disableSpacing>
@@ -18,7 +23,7 @@ const CardActionBar = () => {
           justifyContent="flex-start"
           alignItems="flex-end"
         >
-          <IconButton>
+          <IconButton onClick={() => onDelete(cardId)}>
             <DeleteIcon />
           </IconButton>
           <IconButton>
