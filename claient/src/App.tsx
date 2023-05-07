@@ -1,15 +1,17 @@
 import React from "react";
-
 import "./App.css";
-
-import Card from "./cards/components/card/Card";
-import Cards from "./cards/components/Crds";
+import Layout from "./layout/Layout";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./routes/Router";
 
 function App() {
   return (
     <div className="App">
-      {/*   <Card /> */}
-      <Cards />
+      <BrowserRouter>
+        <Layout>
+          <Router />
+        </Layout>
+      </BrowserRouter>
     </div>
   );
 }

@@ -7,13 +7,17 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../../routes/routesModel";
 
 type Props = {
   onDelete: (id: string) => void;
+  onLike: (id: string) => void;
   cardId: string;
 };
 
-const CardActionBar: React.FC<Props> = ({ onDelete, cardId }) => {
+const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
+  const navigate = useNavigate();
   return (
     <>
       <CardActions disableSpacing>
@@ -26,7 +30,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId }) => {
           <IconButton onClick={() => onDelete(cardId)}>
             <DeleteIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => navigate(`${ROUTES.CARD_EDIT}/${cardId}`)}>
             <EditIcon />
           </IconButton>
         </Grid>
@@ -39,7 +43,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId }) => {
           <IconButton>
             <PhoneIcon />
           </IconButton>
-          <IconButton aria-label="add to favorites">
+          <IconButton onClick={() => onLike(cardId)}>
             <FavoriteIcon />
           </IconButton>
         </Grid>

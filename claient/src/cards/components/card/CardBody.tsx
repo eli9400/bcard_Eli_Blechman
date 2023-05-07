@@ -2,13 +2,13 @@ import React from "react";
 
 import { Box, CardContent, CardHeader, Divider } from "@mui/material";
 
-import CardInterface from "../../interfaces/CardInterface";
 import CardBodyRow from "./CardBodyRow";
+import CardInterface from "../../interfaces/CardInterface";
 
-type Props = { Cardbudy: CardInterface };
+type Props = { CardBody: CardInterface };
 
-const CardBody: React.FC<Props> = ({ Cardbudy }) => {
-  const { address, bizNumber, phone, title, subtitle } = Cardbudy;
+const CardBody: React.FC<Props> = ({ CardBody }) => {
+  const { address, bizNumber, phone, title, subtitle } = CardBody;
   const { city, street, houseNumber, country } = address;
 
   return (
