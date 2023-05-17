@@ -40,5 +40,7 @@ export const SANDBOX_ROUTES = {
   MUI_STACK: "mui-stack",
   MUI_APP_BAR: "mui-app-bar",
   MUI_BOTTOM_NAVIGATION: "mui-bottom-navigation",
+  CUSTOM: "custom",
+  CUSTOM_NAME: "custom-name",
 };
 export default ROUTES;

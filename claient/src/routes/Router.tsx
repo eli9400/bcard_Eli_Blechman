@@ -4,7 +4,7 @@ import ROUTES, { SANDBOX_ROUTES } from "./routesModel";
 import CardsPage from "../cards/pages/CardsPage";
 import AboutPage from "../pages/AboutPage";
 import ErrorPage from "../pages/ErrorPage";
-import SignupPage from "../users/pages/SignupPage";
+
 import LoginPage from "../users/pages/LoginPage";
 import CardDetailsPage from "../cards/pages/CardDetailsPage";
 import CardEditPage from "../cards/pages/CardEditPage";
@@ -36,6 +36,9 @@ import MuiGrid from "../sandbox/mui-sandbox/layout/MuiGrid";
 import MuiStack from "../sandbox/mui-sandbox/layout/MuiStack";
 import MuiAppBar from "../sandbox/mui-sandbox/navigations/MuiAppBar";
 import MuiBottomNavigation from "../sandbox/mui-sandbox/navigations/MuiBottomNavigation";
+import CustomHooksMenu from "../sandbox/pages/CustomHooksMenu";
+import CustomName from "../sandbox/custom-hooks/CustomName";
+import SignUpPage from "../users/pages/SignUpPage";
 
 const Router = () => {
   return (
@@ -48,10 +51,13 @@ const Router = () => {
         element={<CardDetailsPage />}
       />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
-      <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+      <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
       <Route path="*" element={<ErrorPage />} />
       <Route path={ROUTES.SANDBOX} element={<SandboxMenu />}>
+        <Route path={SANDBOX_ROUTES.CUSTOM} element={<CustomHooksMenu />}>
+          <Route path={SANDBOX_ROUTES.CUSTOM_NAME} element={<CustomName />} />
+        </Route>
         <Route path={SANDBOX_ROUTES.COMPONENT} element={<ComponentMenu />}>
           <Route
             path={SANDBOX_ROUTES.SANDBOX_COMPONENT}

@@ -15,6 +15,11 @@ const SandboxMenu = () => {
             to={SANDBOX_ROUTES.COMPONENT}
             color="black"
           />
+          <NavItem
+            label="custom hooks"
+            to={SANDBOX_ROUTES.CUSTOM}
+            color="black"
+          />
         </Toolbar>
       </AppBar>
       <Outlet />

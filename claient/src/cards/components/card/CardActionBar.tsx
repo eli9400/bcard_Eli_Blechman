@@ -11,12 +11,10 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
 
 type Props = {
-  onDelete: (id: string) => void;
-  onLike: (id: string) => void;
   cardId: string;
 };
 
-const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
+const CardActionBar: React.FC<Props> = ({ cardId }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -27,7 +25,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
           justifyContent="flex-start"
           alignItems="flex-end"
         >
-          <IconButton onClick={() => onDelete(cardId)}>
+          <IconButton>
             <DeleteIcon />
           </IconButton>
           <IconButton onClick={() => navigate(`${ROUTES.CARD_EDIT}/${cardId}`)}>
@@ -43,7 +41,7 @@ const CardActionBar: React.FC<Props> = ({ onDelete, cardId, onLike }) => {
           <IconButton>
             <PhoneIcon />
           </IconButton>
-          <IconButton onClick={() => onLike(cardId)}>
+          <IconButton>
             <FavoriteIcon />
           </IconButton>
         </Grid>

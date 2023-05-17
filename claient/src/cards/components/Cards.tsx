@@ -10,11 +10,6 @@ type Props = {
 };
 
 const Cards: React.FC<Props> = ({ cards }) => {
-  const handleCardDelete = (id: string) =>
-    console.log(`you delete card no: ${id} `);
-  const handleCardLike = (id: string) =>
-    console.log(`you like card no: ${id} `);
-
   if (!cards.length)
     return (
       <Typography>
@@ -23,14 +18,9 @@ const Cards: React.FC<Props> = ({ cards }) => {
     );
   return (
     <Grid container spacing={2} pb={2}>
-      {cards.map((card) => (
+      {cards.map((card: CardInterface) => (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
-          <Card
-            onDelete={handleCardDelete}
-            card={card}
-            key={card._id}
-            onLike={handleCardLike}
-          />
+          <Card card={card} key={card._id} />
         </Grid>
       ))}
     </Grid>

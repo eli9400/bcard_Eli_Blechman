@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
 type Props = {
   card: CardInterface;
-  onDelete: (id: string) => void;
-  onLike: (id: string) => void;
 };
 
-const Card: React.FC<Props> = ({ card, onDelete, onLike }) => {
+const Card: React.FC<Props> = ({ card }) => {
   const navigate = useNavigate();
   return (
     <MUICard sx={{ minWidth: 280 }}>
@@ -23,7 +21,7 @@ const Card: React.FC<Props> = ({ card, onDelete, onLike }) => {
         <CardHead image={card.image} />
         <CardBody CardBody={card} />
       </CardActionArea>
-      <CardActionBar cardId={card._id} onDelete={onDelete} onLike={onLike} />
+      <CardActionBar cardId={card._id} />
     </MUICard>
   );
 };
