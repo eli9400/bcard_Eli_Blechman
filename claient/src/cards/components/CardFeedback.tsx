@@ -4,11 +4,13 @@ import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 import Cards from "./Cards";
 import { Typography } from "@mui/material";
+import { TokenType } from "../../users/models/types/userTypes";
 
 type Props = {
   idLoading: boolean;
   error: string | null;
   cards: CardInterface[] | null | undefined;
+  onDelete?: (cardId: string) => void;
 };
 
 const CardFeedback: React.FC<Props> = ({ idLoading, error, cards }) => {

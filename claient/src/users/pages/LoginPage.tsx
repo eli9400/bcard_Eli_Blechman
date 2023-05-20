@@ -8,22 +8,21 @@ import useForm from "../../forms/hooks/useForm";
 import Form from "../../forms/components/Form";
 import Input from "../../forms/components/Input";
 import { Button } from "@mui/material";
+import loginSchema from "../models/joi/loginSchema";
+import initialLoginForm from "../models/initialForms/initialLoginForm";
+import useHandleUser from "../hook/useUsers";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const user = false;
-  const initialLoginForm = {
-    email: "",
-    password: "",
-  };
-  const loginSchema = {
-    email: Joi.string().min(3).required(),
-    password: Joi.string().min(8).required(),
-  };
-  const handleLogin = (data: string) => {
+  const {
+    handleLogin,
+    value: { user },
+  } = useHandleUser();
+
+  /*  const handleLogin1 = (data: string) => {
     console.log(data);
     handleReset();
-  };
+  }; */
   const { value, ...rest } = useForm(
     initialLoginForm,
     loginSchema,
@@ -36,7 +35,6 @@ const LoginPage = () => {
   return (
     <Container
       sx={{
-        mt: 8,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -49,6 +47,7 @@ const LoginPage = () => {
         onReset={handleReset}
         onFormChange={validateForm}
         spacing={1}
+        styles={{ maxWidth: "450px" }}
       >
         <Input
           label="press email"

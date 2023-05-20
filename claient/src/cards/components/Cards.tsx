@@ -4,6 +4,7 @@ import CardInterface from "../interfaces/CardInterface";
 
 import Grid from "@mui/material/Grid";
 import Card from "./card/Card";
+import { TokenType } from "../../users/models/types/userTypes";
 
 type Props = {
   cards: CardInterface[];

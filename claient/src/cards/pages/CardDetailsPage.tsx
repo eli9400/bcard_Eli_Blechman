@@ -8,11 +8,13 @@ import useCards from "../hooks/useCards";
 import Spinner from "../../components/Spinner";
 import Error from "../../components/Error";
 import PageHeader from "../../components/PageHeder";
+import { useUser } from "../../users/providers/UserProvider";
 
 const CardDetailsPage = () => {
   const { cardId } = useParams();
   const { card, error, isLoading, handleGetCard, handleDeleteCard } =
     useCards();
+
   useEffect(() => {
     if (cardId) handleGetCard(cardId);
   }, []);

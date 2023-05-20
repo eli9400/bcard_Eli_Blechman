@@ -39,6 +39,8 @@ import MuiBottomNavigation from "../sandbox/mui-sandbox/navigations/MuiBottomNav
 import CustomHooksMenu from "../sandbox/pages/CustomHooksMenu";
 import CustomName from "../sandbox/custom-hooks/CustomName";
 import SignUpPage from "../users/pages/SignUpPage";
+import MayCards from "../cards/pages/MayCards";
+import CreateCardPage from "../cards/pages/CreateCardPage";
 
 const Router = () => {
   return (
@@ -50,9 +52,11 @@ const Router = () => {
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}
       />
+      <Route path={ROUTES.MY_CARDS} element={<MayCards />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.CREATE_CARD} element={<CreateCardPage />} />
       <Route path="*" element={<ErrorPage />} />
       <Route path={ROUTES.SANDBOX} element={<SandboxMenu />}>
         <Route path={SANDBOX_ROUTES.CUSTOM} element={<CustomHooksMenu />}>

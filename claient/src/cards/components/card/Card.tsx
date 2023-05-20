@@ -7,6 +7,7 @@ import CardInterface from "../../interfaces/CardInterface";
 import CardActionArea from "@mui/material/CardActionArea";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
+
 type Props = {
   card: CardInterface;
 };
@@ -21,7 +22,11 @@ const Card: React.FC<Props> = ({ card }) => {
         <CardHead image={card.image} />
         <CardBody CardBody={card} />
       </CardActionArea>
-      <CardActionBar cardId={card._id} />
+      <CardActionBar
+        cardLikes={card.likes}
+        cardUserId={card.user_id}
+        cardId={card._id}
+      />
     </MUICard>
   );
 };

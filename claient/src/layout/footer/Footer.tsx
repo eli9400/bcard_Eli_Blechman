@@ -7,9 +7,11 @@ import InfoIcon from "@mui/icons-material/Info";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
+import { useUser } from "../../users/providers/UserProvider";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { user } = useUser();
   return (
     <Paper
       sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}
@@ -21,16 +23,20 @@ const Footer = () => {
           label="About"
           icon={<InfoIcon />}
         />
-        <BottomNavigationAction
-          onClick={() => navigate(ROUTES.FAV_CARDS)}
-          label="Favorites"
-          icon={<FavoriteIcon />}
-        />
-        <BottomNavigationAction
-          onClick={() => navigate(ROUTES.MY_CARDS)}
-          label="My Cards"
-          icon={<PortraitIcon />}
-        />
+        {user && (
+          <BottomNavigationAction
+            onClick={() => navigate(ROUTES.FAV_CARDS)}
+            label="Favorites"
+            icon={<FavoriteIcon />}
+          />
+        )}
+        {user && user.isBusiness && (
+          <BottomNavigationAction
+            onClick={() => navigate(ROUTES.MY_CARDS)}
+            label="My Cards"
+            icon={<PortraitIcon />}
+          />
+        )}
       </BottomNavigation>
     </Paper>
   );

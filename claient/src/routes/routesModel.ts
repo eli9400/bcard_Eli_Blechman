@@ -9,6 +9,7 @@ const ROUTES = {
   SANDBOX: "/sandbox",
   CARD_DETAILS: "/card-info",
   CARD_EDIT: "/card-edit",
+  CREATE_CARD: "/create-card",
 };
 
 export const SANDBOX_ROUTES = {

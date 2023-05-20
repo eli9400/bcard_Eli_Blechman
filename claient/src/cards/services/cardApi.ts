@@ -1,6 +1,8 @@
 import axios from "axios";
 import CardInterface from "../interfaces/CardInterface";
 
+import { NormalizedEditCard } from "../models/types/cardTypes";
+
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 
 export const getCards = async () => {
@@ -14,7 +16,7 @@ export const getCards = async () => {
 };
 export const getCard = async (cardId: string) => {
   try {
-    const { data } = await axios.get<CardInterface>(
+    const { data } = await axios.get<CardInterface | null>(
       `${apiUrl}/cards/${cardId}`
     );
     return Promise.resolve(data);
@@ -35,20 +37,11 @@ export const getMyCards = async () => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-export const createCard = async (card: CardInterface) => {
-  try {
-    const { data } = await axios.post<CardInterface>(`${apiUrl}/cards`, card);
-    return Promise.resolve(data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
-  }
-};
-export const editCard = async (card: CardInterface | null, cardId: string) => {
+export const createCard = async (normalizedCard: object) => {
   try {
     const { data } = await axios.post<CardInterface>(
-      `${apiUrl}/cards/${cardId}`,
-      card
+      `${apiUrl}/cards`,
+      normalizedCard
     );
     return Promise.resolve(data);
   } catch (error) {
@@ -56,10 +49,28 @@ export const editCard = async (card: CardInterface | null, cardId: string) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-export const changeLikeStatus = async (cardId: string) => {
+export const editCard = async (normalizedCard: NormalizedEditCard) => {
   try {
-    const { data } = await axios.patch<CardInterface>(
-      `${apiUrl}/cards/${cardId}`
+    const cardToServer = { ...normalizedCard };
+    delete cardToServer._id;
+    const { data } = await axios.put<CardInterface>(
+      `${apiUrl}/cards/${normalizedCard._id}`,
+      cardToServer
+    );
+    return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+};
+export const changeLikeStatus = async (
+  cardId: string,
+  card: CardInterface | null | undefined
+) => {
+  try {
+    const { data } = await axios.patch<CardInterface | null>(
+      `${apiUrl}/cards/${cardId}`,
+      card
     );
     return Promise.resolve(data);
   } catch (error) {

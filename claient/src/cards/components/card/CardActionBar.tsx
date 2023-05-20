@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import CardActions from "@mui/material/CardActions";
 import { Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -10,12 +10,42 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
 
-type Props = {
+import useCards from "../../hooks/useCards";
+
+import { useUser } from "../../../users/providers/UserProvider";
+
+type CardActionBarProps = {
   cardId: string;
+  cardUserId: string;
+
+  cardLikes: string[];
 };
 
-const CardActionBar: React.FC<Props> = ({ cardId }) => {
+const CardActionBar: React.FC<CardActionBarProps> = ({
+  cardId,
+  cardUserId,
+  cardLikes,
+}) => {
+  const { user } = useUser();
   const navigate = useNavigate();
+
+  const { handleGetCard, card, handleDeleteCard, handleLikeCard } = useCards();
+  const [Like, setLike] = useState(() => {
+    if (!user) return false;
+    return !!cardLikes.find((id: string) => id === user._id);
+  });
+  const onLikCard = async () => {
+    const cardLike = handleGetCard(cardId);
+
+    setLike((perv) => !perv);
+    if (cardLike) {
+      await handleLikeCard(cardId, await cardLike);
+    }
+    return;
+  };
+
+  console.log(`test2:${user?._id}`);
+
   return (
     <>
       <CardActions disableSpacing>
@@ -25,26 +55,34 @@ const CardActionBar: React.FC<Props> = ({ cardId }) => {
           justifyContent="flex-start"
           alignItems="flex-end"
         >
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton onClick={() => navigate(`${ROUTES.CARD_EDIT}/${cardId}`)}>
-            <EditIcon />
-          </IconButton>
+          {user?._id === card?.user_id && user?.isBusiness && user?.isAdmin && (
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          )}
+          {user?.isBusiness && (
+            <IconButton
+              onClick={() => navigate(`${ROUTES.CARD_EDIT}/${cardId}`)}
+            >
+              <EditIcon />
+            </IconButton>
+          )}
         </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="flex-end"
-        >
-          <IconButton>
-            <PhoneIcon />
-          </IconButton>
-          <IconButton>
-            <FavoriteIcon />
-          </IconButton>
-        </Grid>
+        {user && (
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+          >
+            <IconButton>
+              <PhoneIcon />
+            </IconButton>
+            <IconButton onClick={onLikCard}>
+              <FavoriteIcon color={Like ? "warning" : "inherit"} />
+            </IconButton>
+          </Grid>
+        )}
       </CardActions>
     </>
   );

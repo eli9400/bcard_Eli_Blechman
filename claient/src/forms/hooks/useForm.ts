@@ -27,6 +27,7 @@ const useForm = <TForm extends Record<string, unknown>>(
     },
     [schema]
   );
+
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
       const { name, value, checked } = target;
@@ -42,36 +43,13 @@ const useForm = <TForm extends Record<string, unknown>>(
         });
       }
 
-      setData((prev) => {
-        let updatedValue: string | boolean = value;
-        if (name === "isBusiness") {
-          updatedValue = checked || value === "on";
-        }
-
-        return { ...prev, [name]: updatedValue };
-      });
+      setData((prev) => ({
+        ...prev,
+        [name]: name === "isBusiness" ? checked : value,
+      }));
     },
     [validateProperty]
   );
-
-  /*    const handleChange = useCallback(
-    ({ target }: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = target;
-      const errorMessage = validateProperty(target);
-
-      if (errorMessage)
-        setErrors((prev) => ({ ...prev, [name]: errorMessage }));
-      else
-        setErrors((prev) => {
-          let obj: Record<string, string> = { ...prev };
-          delete obj[name];
-          return obj;
-        });
-
-      setData((prev) => ({ ...prev, [name]: value }));
-    },
-    [validateProperty]
-  ); */
 
   const validateForm = useCallback(() => {
     const schemaForValidate = Joi.object(schema);
