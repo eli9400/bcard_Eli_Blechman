@@ -8,7 +8,8 @@ const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 export const getCards = async () => {
   try {
     const { data } = await axios.get<CardInterface[]>(`${apiUrl}/cards`);
-    return Promise.resolve(data);
+    if (data) return Promise.resolve(data);
+    return [];
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
     return Promise.reject("An unexpected error occurred!");

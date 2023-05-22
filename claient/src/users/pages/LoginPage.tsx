@@ -10,19 +10,14 @@ import Input from "../../forms/components/Input";
 import { Button } from "@mui/material";
 import loginSchema from "../models/joi/loginSchema";
 import initialLoginForm from "../models/initialForms/initialLoginForm";
-import useHandleUser from "../hook/useUsers";
+import useUsers from "../hook/useUsers";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const {
     handleLogin,
     value: { user },
-  } = useHandleUser();
-
-  /*  const handleLogin1 = (data: string) => {
-    console.log(data);
-    handleReset();
-  }; */
+  } = useUsers();
   const { value, ...rest } = useForm(
     initialLoginForm,
     loginSchema,

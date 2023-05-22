@@ -10,9 +10,10 @@ import ROUTES from "../../../routes/routesModel";
 
 type Props = {
   card: CardInterface;
+  onDelete: (cardId: string) => void;
 };
 
-const Card: React.FC<Props> = ({ card }) => {
+const Card: React.FC<Props> = ({ card, onDelete }) => {
   const navigate = useNavigate();
   return (
     <MUICard sx={{ minWidth: 280 }}>
@@ -23,9 +24,11 @@ const Card: React.FC<Props> = ({ card }) => {
         <CardBody CardBody={card} />
       </CardActionArea>
       <CardActionBar
+        onDelete={onDelete}
         cardLikes={card.likes}
         cardUserId={card.user_id}
         cardId={card._id}
+        onLike={() => {}}
       />
     </MUICard>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import CardActions from "@mui/material/CardActions";
 import { Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -13,29 +13,42 @@ import ROUTES from "../../../routes/routesModel";
 import useCards from "../../hooks/useCards";
 
 import { useUser } from "../../../users/providers/UserProvider";
+import CardDeleteDialog from "../CardDeleteDialog";
 
 type CardActionBarProps = {
   cardId: string;
   cardUserId: string;
-
+  onDelete: (id: string) => void;
   cardLikes: string[];
+  onLike: () => void;
 };
 
 const CardActionBar: React.FC<CardActionBarProps> = ({
   cardId,
   cardUserId,
   cardLikes,
+  onDelete,
+  onLike,
 }) => {
   const { user } = useUser();
   const navigate = useNavigate();
-
-  const { handleGetCard, card, handleDeleteCard, handleLikeCard } = useCards();
+  const [isDialogOpen, setDialog] = useState(false);
+  const { handleGetCard, card, handleLikeCard } = useCards();
   const [Like, setLike] = useState(() => {
     if (!user) return false;
     return !!cardLikes.find((id: string) => id === user._id);
   });
+  const handelDialog = (term?: string | null) => {
+    if (term === "open") return setDialog(true);
+    setDialog(false);
+  };
+  const handleDeleteCard = () => {
+    handelDialog();
+    onDelete(cardId);
+  };
   const onLikCard = async () => {
     const cardLike = handleGetCard(cardId);
+    onLike()
 
     setLike((perv) => !perv);
     if (cardLike) {
@@ -43,8 +56,6 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
     }
     return;
   };
-
-  console.log(`test2:${user?._id}`);
 
   return (
     <>
@@ -55,8 +66,13 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
           justifyContent="flex-start"
           alignItems="flex-end"
         >
-          {user?._id === card?.user_id && user?.isBusiness && user?.isAdmin && (
-            <IconButton>
+          {user && (user?.isAdmin || user?._id === card?.user_id) && (
+            <IconButton
+              aria-label="delete card"
+              onClick={() => {
+                handelDialog("open");
+              }}
+            >
               <DeleteIcon />
             </IconButton>
           )}
@@ -75,6 +91,11 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
             justifyContent="flex-end"
             alignItems="flex-end"
           >
+            <CardDeleteDialog
+              isDialogOpen={isDialogOpen}
+              onChangeDialog={handelDialog}
+              onDelete={handleDeleteCard}
+            />
             <IconButton>
               <PhoneIcon />
             </IconButton>

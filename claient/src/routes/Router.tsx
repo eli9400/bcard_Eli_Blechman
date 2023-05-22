@@ -41,6 +41,8 @@ import CustomName from "../sandbox/custom-hooks/CustomName";
 import SignUpPage from "../users/pages/SignUpPage";
 import MayCards from "../cards/pages/MayCards";
 import CreateCardPage from "../cards/pages/CreateCardPage";
+import EditUserPage from "../users/pages/EditUserPage";
+import FavCardsPage from "../cards/pages/FavCardsPage";
 
 const Router = () => {
   return (
@@ -48,11 +50,13 @@ const Router = () => {
       <Route path={ROUTES.ROOT} element={<CardsPage />} />
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
       <Route path={`${ROUTES.CARD_EDIT}/:cardId`} element={<CardEditPage />} />
+      <Route path={`${ROUTES.USER_EDIT}/:userId`} element={<EditUserPage />} />
       <Route
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}
       />
       <Route path={ROUTES.MY_CARDS} element={<MayCards />} />
+      <Route path={ROUTES.FAV_CARDS} element={<FavCardsPage />} />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />

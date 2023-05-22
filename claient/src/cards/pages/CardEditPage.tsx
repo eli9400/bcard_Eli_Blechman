@@ -32,7 +32,7 @@ const CardEditPage = () => {
         setData(modeledCard);
       });
   }, []);
-  if (!user) return <Navigate replace to={ROUTES.ROOT} />;
+  /* if (!user) return <Navigate replace to={ROUTES.ROOT} />; */
 
   return (
     <>

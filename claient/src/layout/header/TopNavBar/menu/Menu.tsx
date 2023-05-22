@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import MenuLink from "./MenuLink";
 import { useUser } from "../../../../users/providers/UserProvider";
 import useUsers from "../../../../users/hook/useUsers";
+import ROUTES from "../../../../routes/routesModel";
 
 type Props = {
   isOpen: boolean;
@@ -63,7 +64,11 @@ const Menu: React.FC<Props> = ({ isOpen, anchorEl, onClose }) => {
         {user && (
           <>
             <MenuLink label="profile" navigateTo={""} onClick={onClose} />
-            <MenuLink label="edit account" navigateTo={""} onClick={onClose} />
+            <MenuLink
+              label="edit account"
+              navigateTo={`${ROUTES.USER_EDIT}/${user._id}`}
+              onClick={onClose}
+            />
 
             <MenuItem onClick={onLogout}>Logout</MenuItem>
           </>

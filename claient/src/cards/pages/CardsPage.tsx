@@ -7,13 +7,16 @@ import CardFeedback from "../components/CardFeedback";
 import useCards from "../hooks/useCards";
 
 const CardsPage = () => {
-  const { cards, isLoading, error, handleGetCards, handleLikeCard } =
+  const { cards, isLoading, error, handleGetCards, handleDeleteCard } =
     useCards();
 
   useEffect(() => {
     handleGetCards();
   }, []);
-
+  const onDeleteCard = async (cardId: string) => {
+    await handleDeleteCard(cardId);
+    await handleGetCards();
+  };
   return (
     <Container>
       <PageHeader
@@ -21,7 +24,13 @@ const CardsPage = () => {
         subtitle="Here you can find all types of business cards"
       />
 
-      <CardFeedback idLoading={isLoading} error={error} cards={cards} />
+      <CardFeedback
+        idLoading={isLoading}
+        error={error}
+        cards={cards}
+        onDelete={onDeleteCard}
+        onLike={() => {}}
+      />
     </Container>
   );
 };

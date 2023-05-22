@@ -1,5 +1,4 @@
-import { TokenType } from "./../../users/models/types/userTypes";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import CardInterface from "../interfaces/CardInterface";
 import {
   changeLikeStatus,
@@ -22,12 +21,15 @@ import { useSnack } from "../../providers/SnackbarProvider";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
+import { useUser } from "../../users/providers/UserProvider";
+
 type ErrorType = null | string;
 type CardsTypes = CardInterface[] | null;
 type CardsType = CardInterface | null;
 
 const useCards = () => {
   const [isLoading, setLoading] = useState(false);
+  const { user } = useUser();
 
   const [error, setError] = useState<ErrorType>(null);
   const [cards, setCards] = useState<CardsTypes>(null);
@@ -53,7 +55,11 @@ const useCards = () => {
     try {
       setLoading(true);
       const cards = await getCards();
-      requestStatus(false, null, cards, null);
+      if (cards) {
+        requestStatus(false, null, cards, null);
+        return cards;
+      }
+      return [];
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null, null);
     }
@@ -118,14 +124,22 @@ const useCards = () => {
   ) => {
     try {
       setLoading(false);
-
       const card = await changeLikeStatus(cardId, cardLik);
       requestStatus(false, null, cards, card);
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null, null);
     }
   };
-
+  const handleGetFavCards = useCallback(async () => {
+    try {
+      const Cards = await handleGetCards();
+      setLoading(false);
+      const favCards = Cards?.filter(
+        (card) => !!card.likes.find((id) => id === user?._id)
+      );
+      if (favCards) requestStatus(false, null, favCards, null);
+    } catch (error) {}
+  }, [user]);
   return {
     isLoading,
     error,
@@ -140,6 +154,7 @@ const useCards = () => {
     handelUpdateCard,
     handleDeleteCard,
     handleLikeCard,
+    handleGetFavCards,
   };
 };
 
