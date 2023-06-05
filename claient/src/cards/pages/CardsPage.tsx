@@ -7,9 +7,8 @@ import CardFeedback from "../components/CardFeedback";
 import useCards from "../hooks/useCards";
 
 const CardsPage = () => {
-  const { cards, isLoading, error, handleGetCards, handleDeleteCard } =
-    useCards();
-
+  const { value, handleGetCards, handleDeleteCard } = useCards();
+  const { isLoading, error, filteredCard } = value;
   useEffect(() => {
     handleGetCards();
   }, []);
@@ -27,7 +26,7 @@ const CardsPage = () => {
       <CardFeedback
         idLoading={isLoading}
         error={error}
-        cards={cards}
+        cards={filteredCard}
         onDelete={onDeleteCard}
         onLike={() => {}}
       />

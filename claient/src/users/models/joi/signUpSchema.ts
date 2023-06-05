@@ -31,5 +31,6 @@ const registerSchemaForm = {
   zip: Joi.number().min(2).max(256).required(),
 
   isBusiness: Joi.boolean(),
+  _id: Joi.string().allow(""),
 };
 export default registerSchemaForm;

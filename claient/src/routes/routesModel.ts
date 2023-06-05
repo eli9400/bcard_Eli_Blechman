@@ -11,6 +11,7 @@ const ROUTES = {
   CARD_EDIT: "/card-edit",
   CREATE_CARD: "/create-card",
   USER_EDIT: "/user-edit",
+  USER_PROFILE: "/user-profile",
 };
 
 export const SANDBOX_ROUTES = {

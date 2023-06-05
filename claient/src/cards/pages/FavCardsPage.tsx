@@ -1,37 +1,27 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect } from "react";
 import useCards from "../hooks/useCards";
 import PageHeader from "../../components/PageHeder";
 import Container from "@mui/material/Container";
 import CardFeedback from "../components/CardFeedback";
-import { Await, Route, useNavigate } from "react-router-dom";
-import ROUTES from "../../routes/routesModel";
+
 const FavCardsPage = () => {
-  const { ...rest } = useCards();
-  const {
-    isLoading,
-    error,
-    cards,
-    card,
-    handleGetFavCards,
-    handleDeleteCard,
-    handleLikeCard,
-  } = rest;
-  const ref = useRef();
-  const navigate = useNavigate();
+  const { value, ...rest } = useCards();
+  const { isLoading, error, filteredCard } = value;
+  const { handleGetFavCards, handleDeleteCard } = rest;
   useEffect(() => {
     handleGetFavCards();
   }, []);
-  useEffect(() => {
-    handleGetFavCards();
-  }, [card?.likes]);
 
-  const onDeleteCard = useCallback(async (cardId: string) => {
-    console.log(cardId);
-
-    await handleDeleteCard(cardId);
+  const onDeleteCard = useCallback(
+    async (cardId: string) => {
+      await handleDeleteCard(cardId);
+      await handleGetFavCards();
+    },
+    [handleDeleteCard]
+  );
+  const changeLikeStatus = useCallback(async () => {
     await handleGetFavCards();
   }, []);
-
   return (
     <Container>
       <PageHeader
@@ -42,9 +32,9 @@ const FavCardsPage = () => {
       <CardFeedback
         idLoading={isLoading}
         error={error}
-        cards={cards}
+        cards={filteredCard}
         onDelete={onDeleteCard}
-        onLike={() => handleLikeCard(card!._id, card)}
+        onLike={changeLikeStatus}
       />
     </Container>
   );

@@ -20,7 +20,7 @@ const normalizeEditUser = (user: userMapToModelType) => {
     },
 
     isBusiness: user.isBusiness,
-    user_id: user.user_id,
+    _id: user._id,
     isAdmin: user.isAdmin,
   };
 };

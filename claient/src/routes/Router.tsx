@@ -43,6 +43,7 @@ import MayCards from "../cards/pages/MayCards";
 import CreateCardPage from "../cards/pages/CreateCardPage";
 import EditUserPage from "../users/pages/EditUserPage";
 import FavCardsPage from "../cards/pages/FavCardsPage";
+import UserProfile from "../users/pages/UserProfile";
 
 const Router = () => {
   return (
@@ -51,6 +52,7 @@ const Router = () => {
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
       <Route path={`${ROUTES.CARD_EDIT}/:cardId`} element={<CardEditPage />} />
       <Route path={`${ROUTES.USER_EDIT}/:userId`} element={<EditUserPage />} />
+      <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
       <Route
         path={`${ROUTES.CARD_DETAILS}/:cardId`}
         element={<CardDetailsPage />}

@@ -7,6 +7,7 @@ import {
   UserFromClient,
   userMapToModelType,
 } from "../models/types/userTypes";
+import { log } from "console";
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 export const GetUser = async (userId: string) => {
@@ -38,7 +39,7 @@ export const login = async (user: LoginType) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-export const EditUser = async (userNormalized: NormalizedEditUser) => {
+/* export const EditUser = async (userNormalized: NormalizedEditUser) => {
   try {
     const userToServer = { ...userNormalized };
     delete userToServer.user_id;
@@ -46,6 +47,22 @@ export const EditUser = async (userNormalized: NormalizedEditUser) => {
       `${apiUrl}/users/${userToServer.user_id}`,
       userToServer
     );
+    return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+};
+ */
+export const EditUser = async (normalizedUser: NormalizedEditUser) => {
+  try {
+    const userToServer = { ...normalizedUser };
+    /*  delete userToServer._id; */
+    const { data } = await axios.put<UserInterface>(
+      `${apiUrl}/users/${normalizedUser._id}`,
+      userToServer
+    );
+    console.log(data);
     return Promise.resolve(data);
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);

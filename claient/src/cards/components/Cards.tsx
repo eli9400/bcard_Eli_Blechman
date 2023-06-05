@@ -8,9 +8,10 @@ import Card from "./card/Card";
 type Props = {
   cards: CardInterface[];
   onDelete: (cardId: string) => void;
+  onLike: () => void;
 };
 
-const Cards: React.FC<Props> = ({ cards, onDelete }) => {
+const Cards: React.FC<Props> = ({ cards, onDelete, onLike }) => {
   if (!cards.length)
     return (
       <Typography>
@@ -21,7 +22,12 @@ const Cards: React.FC<Props> = ({ cards, onDelete }) => {
     <Grid container spacing={2} pb={2}>
       {cards.map((card: CardInterface) => (
         <Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
-          <Card card={card} key={card._id} onDelete={onDelete} />
+          <Card
+            card={card}
+            key={card._id}
+            onDelete={onDelete}
+            onLike={onLike}
+          />
         </Grid>
       ))}
     </Grid>

@@ -2,7 +2,6 @@ import React, {
   useState,
   useContext,
   ReactNode,
-  SetStateAction,
   useMemo,
   useCallback,
 } from "react";
@@ -31,8 +30,8 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
       mode: isDark ? "dark" : "light",
     },
   });
-  
-  const toggleDarkMode = useCallback(() => setDark(prev => !prev), []);
+
+  const toggleDarkMode = useCallback(() => setDark((prev) => !prev), []);
 
   const value = useMemo(() => {
     return { isDark, toggleDarkMode };

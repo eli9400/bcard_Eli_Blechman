@@ -5,8 +5,9 @@ import React, {
   SetStateAction,
   useMemo,
   useEffect,
+  FC,
 } from "react";
-import { getUser } from "../services/LocalStorageService";
+import { getUser, getToken } from "../services/LocalStorageService";
 import { TokenType } from "../models/types/userTypes";
 
 type ContextArgs = {
@@ -22,9 +23,10 @@ type Props = {
   children: ReactNode;
 };
 
-export const UserProvider: React.FC<Props> = ({ children }) => {
+export const UserProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<null | TokenType>(null);
-  const [token, setToken] = useState<null | string>(null);
+  const [token, setToken] = useState(getToken);
+
   useEffect(() => {
     if (!user) {
       const userFromLocalStorage = getUser();

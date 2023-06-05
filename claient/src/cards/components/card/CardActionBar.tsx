@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CardActions from "@mui/material/CardActions";
 import { Grid } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
+import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -9,7 +9,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../routes/routesModel";
-
 import useCards from "../../hooks/useCards";
 
 import { useUser } from "../../../users/providers/UserProvider";
@@ -23,17 +22,19 @@ type CardActionBarProps = {
   onLike: () => void;
 };
 
-const CardActionBar: React.FC<CardActionBarProps> = ({
+const CardActionBar = ({
   cardId,
   cardUserId,
   cardLikes,
   onDelete,
   onLike,
-}) => {
+}: CardActionBarProps) => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [isDialogOpen, setDialog] = useState(false);
-  const { handleGetCard, card, handleLikeCard } = useCards();
+  const { handleLikeCard, handleGetCard } = useCards();
+  const [numOfLikes, setNum] = useState(cardLikes.length);
+
   const [Like, setLike] = useState(() => {
     if (!user) return false;
     return !!cardLikes.find((id: string) => id === user._id);
@@ -47,14 +48,14 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
     onDelete(cardId);
   };
   const onLikCard = async () => {
-    const cardLike = handleGetCard(cardId);
-    onLike()
-
     setLike((perv) => !perv);
-    if (cardLike) {
-      await handleLikeCard(cardId, await cardLike);
-    }
-    return;
+
+    await handleLikeCard(cardId);
+    const card = await handleGetCard(cardId);
+    setNum(card!.likes.length);
+    console.log();
+
+    onLike();
   };
 
   return (
@@ -66,7 +67,7 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
           justifyContent="flex-start"
           alignItems="flex-end"
         >
-          {user && (user?.isAdmin || user?._id === card?.user_id) && (
+          {user && (user?.isAdmin || user?._id === cardUserId) && (
             <IconButton
               aria-label="delete card"
               onClick={() => {
@@ -76,7 +77,7 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
               <DeleteIcon />
             </IconButton>
           )}
-          {user?.isBusiness && (
+          {user?.isBusiness && user._id === cardUserId && (
             <IconButton
               onClick={() => navigate(`${ROUTES.CARD_EDIT}/${cardId}`)}
             >
@@ -89,18 +90,19 @@ const CardActionBar: React.FC<CardActionBarProps> = ({
             container
             direction="row"
             justifyContent="flex-end"
-            alignItems="flex-end"
+            alignItems="center"
           >
             <CardDeleteDialog
               isDialogOpen={isDialogOpen}
               onChangeDialog={handelDialog}
               onDelete={handleDeleteCard}
             />
-            <IconButton>
+            <IconButton style={{ marginRight: `5px` }}>
               <PhoneIcon />
             </IconButton>
             <IconButton onClick={onLikCard}>
               <FavoriteIcon color={Like ? "warning" : "inherit"} />
+              <p style={{ display: `inline` }}>{numOfLikes}</p>
             </IconButton>
           </Grid>
         )}

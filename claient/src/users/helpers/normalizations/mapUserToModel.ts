@@ -4,6 +4,7 @@ import UserInterface from "../../interfaces/userInterface";
 
 const mapUserToModel = (user: UserInterface): UserFromClient => {
   return {
+    _id: user._id,
     first: user.name.first,
     middle: user.name.middle!,
     last: user.name.last,

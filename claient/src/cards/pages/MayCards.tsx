@@ -12,15 +12,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
 const MayCards = () => {
+  const { value, handleGetMyCards, handleDeleteCard } = useCards();
+  const { cards, error, isLoading } = value;
   const { user } = useUser();
-  const {
-    cards,
-    error,
-    isLoading,
-    handleGetMyCards,
-    handleDeleteCard,
-    handleLikeCard,
-  } = useCards();
+
   const navigate = useNavigate();
   useEffect(() => {
     handleGetMyCards();
@@ -53,7 +48,7 @@ const MayCards = () => {
         error={error}
         cards={cards}
         onDelete={onDeleteCard}
-        onLike={() => handleLikeCard}
+        onLike={() => {}}
       />
     </Container>
   );

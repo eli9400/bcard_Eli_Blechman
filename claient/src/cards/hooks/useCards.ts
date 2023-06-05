@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import CardInterface from "../interfaces/CardInterface";
 import {
   changeLikeStatus,
@@ -18,7 +18,7 @@ import {
 import normalizeCard from "../helpers/normalizations/normalizeCard";
 import normalizeEditCard from "../helpers/normalizations/normalizeEditCard";
 import { useSnack } from "../../providers/SnackbarProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 
 import { useUser } from "../../users/providers/UserProvider";
@@ -29,21 +29,39 @@ type CardsType = CardInterface | null;
 
 const useCards = () => {
   const [isLoading, setLoading] = useState(false);
-  const { user } = useUser();
 
   const [error, setError] = useState<ErrorType>(null);
   const [cards, setCards] = useState<CardsTypes>(null);
   const [card, setCard] = useState<CardsType>(null);
-  const [like, setLike] = useState(false);
+  const [query, setQuery] = useState<CardsType | any>("");
+  const [filteredCard, setFilter] = useState<CardsType | any>("");
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    setQuery(searchParams.get("Q") ?? "");
+  }, [searchParams]);
+  useEffect(() => {
+    if (cards) {
+      setFilter(
+        cards.filter(
+          (card) =>
+            card.title.includes(query) ||
+            String(card.bizNumber).includes(query) ||
+            card.subtitle.includes(query) ||
+            card.description.includes(query)
+        )
+      );
+    }
+  }, [cards, query]);
 
   useAxiosInterceptors();
+  const { user } = useUser();
   const snack = useSnack();
   const navigate = useNavigate();
   const requestStatus = (
     loading: boolean,
     errorMessage: ErrorType,
     cards: CardsTypes,
-    card: CardsType
+    card: CardsType = null
   ) => {
     setLoading(loading);
     setError(errorMessage);
@@ -66,7 +84,7 @@ const useCards = () => {
   };
   const handleGetCard = async (cardId: string) => {
     try {
-      setLoading(false);
+      setLoading(true);
       const card = await getCard(cardId);
       requestStatus(false, null, null, card);
 
@@ -78,7 +96,7 @@ const useCards = () => {
   };
   const handleGetMyCards = async () => {
     try {
-      setLoading(false);
+      setLoading(true);
       const cards = await getMyCards();
       requestStatus(false, null, cards, null);
     } catch (error) {
@@ -87,7 +105,7 @@ const useCards = () => {
   };
   const handelCreateCard = async (cardFromClient: CardFromClientType) => {
     try {
-      setLoading(false);
+      setLoading(true);
       const normalizedCard = normalizeCard(cardFromClient);
       const card = await createCard(normalizedCard);
       requestStatus(false, null, cards, card);
@@ -99,7 +117,7 @@ const useCards = () => {
   };
   const handelUpdateCard = async (cardFromClient: CardMapToModelType) => {
     try {
-      setLoading(false);
+      setLoading(true);
       const normlizeEditCard = normalizeEditCard(cardFromClient);
       const card = await editCard(normlizeEditCard);
       requestStatus(false, null, cards, card);
@@ -111,20 +129,17 @@ const useCards = () => {
   };
   const handleDeleteCard = async (cardId: string) => {
     try {
-      setLoading(false);
+      setLoading(true);
       await deleteCard(cardId);
       requestStatus(false, null, cards, card);
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null, null);
     }
   };
-  const handleLikeCard = async (
-    cardId: string,
-    cardLik: CardInterface | null | undefined
-  ) => {
+  const handleLikeCard = async (cardId: string) => {
     try {
-      setLoading(false);
-      const card = await changeLikeStatus(cardId, cardLik);
+      setLoading(true);
+      const card = await changeLikeStatus(cardId);
       requestStatus(false, null, cards, card);
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null, null);
@@ -132,21 +147,20 @@ const useCards = () => {
   };
   const handleGetFavCards = useCallback(async () => {
     try {
-      const Cards = await handleGetCards();
-      setLoading(false);
+      setLoading(true);
+      const Cards = await getCards();
+
       const favCards = Cards?.filter(
         (card) => !!card.likes.find((id) => id === user?._id)
       );
-      if (favCards) requestStatus(false, null, favCards, null);
+      requestStatus(false, null, favCards);
     } catch (error) {}
-  }, [user]);
+  }, []);
+  const value = useMemo(() => {
+    return { isLoading, cards, card, error, filteredCard };
+  }, [isLoading, cards, card, error, filteredCard]);
   return {
-    isLoading,
-    error,
-    cards,
-    card,
-    like,
-    setLike,
+    value,
     handleGetCards,
     handleGetMyCards,
     handleGetCard,

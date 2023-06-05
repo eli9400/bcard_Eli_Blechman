@@ -8,9 +8,9 @@ import { Typography } from "@mui/material";
 type Props = {
   idLoading: boolean;
   error: string | null;
-  cards: CardInterface[] | null | undefined;
+  cards: CardInterface[] | null;
   onDelete: (cardId: string) => void;
-  onLike: () => void;
+  onLike: () => void | null | any;
 };
 
 const CardFeedback: React.FC<Props> = ({
@@ -22,7 +22,8 @@ const CardFeedback: React.FC<Props> = ({
 }) => {
   if (idLoading) return <Spinner />;
   if (error) return <Error errorMessage={error} />;
-  if (cards && cards.length) return <Cards cards={cards} onDelete={onDelete} />;
+  if (cards && cards.length)
+    return <Cards cards={cards} onDelete={onDelete} onLike={onLike} />;
   if (cards && !cards.length)
     return (
       <Typography>
@@ -30,6 +31,9 @@ const CardFeedback: React.FC<Props> = ({
       </Typography>
     );
   return null;
+};
+CardFeedback.defaultProps = {
+  onLike: () => {},
 };
 
 export default CardFeedback;

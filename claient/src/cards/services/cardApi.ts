@@ -64,14 +64,12 @@ export const editCard = async (normalizedCard: NormalizedEditCard) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-export const changeLikeStatus = async (
-  cardId: string,
-  card: CardInterface | null | undefined
-) => {
+export const changeLikeStatus = async (cardId: string) => {
   try {
+    console.log(cardId);
+
     const { data } = await axios.patch<CardInterface | null>(
-      `${apiUrl}/cards/${cardId}`,
-      card
+      `${apiUrl}/cards/${cardId}`
     );
     return Promise.resolve(data);
   } catch (error) {

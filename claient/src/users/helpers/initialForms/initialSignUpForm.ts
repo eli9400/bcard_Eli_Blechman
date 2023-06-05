@@ -15,5 +15,6 @@ const initialRegisterForm = {
   zip: "",
 
   isBusiness: false,
+  _id: "",
 };
 export default initialRegisterForm;

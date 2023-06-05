@@ -1,0 +1,40 @@
+.user-profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.user-profile-title {
+  text-align: center;
+}
+
+.user-profile-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.user-profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.user-profile-details {
+  text-align: center;
+}
+
+.user-profile-name {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user-profile-info {
+  margin-bottom: 5px;
+}
+.business-user-icon {
+  color: green;
+  vertical-align: middle;
+  margin-right: 5px;
+}

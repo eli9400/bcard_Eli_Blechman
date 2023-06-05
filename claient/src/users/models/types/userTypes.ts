@@ -5,6 +5,7 @@ export type LoginType = {
   password: string;
 };
 export type UserFromClient = {
+  _id: string;
   first: string;
   middle: string;
   last: string;
@@ -23,6 +24,9 @@ export type UserFromClient = {
   isBusiness: boolean;
 };
 export type userMapToModelType = {
+  _id: string;
+  isBusiness: boolean;
+  isAdmin: boolean;
   first: string;
   middle: string;
   last: string;
@@ -31,16 +35,12 @@ export type userMapToModelType = {
   password: string;
   url: string;
   alt: string;
-
   state: string;
   country: string;
   city: string;
   street: string;
   houseNumber: string;
   zip: string;
-  isBusiness: boolean;
-  user_id: string;
-  isAdmin: boolean;
 };
 export type NormalizedEditUser = {
   name: { first: string; middle: string; last: string };
@@ -61,6 +61,6 @@ export type NormalizedEditUser = {
   };
   isBusiness: boolean;
 
-  user_id?: string;
+  _id?: string;
 };
 export type CreateUserErrors = Partial<UserFromClient>;
