@@ -21,6 +21,15 @@ export const GetUser = async (userId: string) => {
       return Promise.reject("An unexpected error occurred!");
   }
 };
+export const GetUsers = async () => {
+  try {
+    const { data } = await axios.get<userMapToModelType[]>(`${apiUrl}/users/`);
+    if (data) return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error))
+      return Promise.reject("An unexpected error occurred!");
+  }
+};
 export const createUser = async (user: object) => {
   try {
     const { data } = await axios.post<UserInterface>(`${apiUrl}/users`, user);
@@ -39,21 +48,7 @@ export const login = async (user: LoginType) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-/* export const EditUser = async (userNormalized: NormalizedEditUser) => {
-  try {
-    const userToServer = { ...userNormalized };
-    delete userToServer.user_id;
-    const { data } = await axios.put<UserInterface>(
-      `${apiUrl}/users/${userToServer.user_id}`,
-      userToServer
-    );
-    return Promise.resolve(data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
-  }
-};
- */
+
 export const EditUser = async (normalizedUser: NormalizedEditUser) => {
   try {
     const userToServer = { ...normalizedUser };
@@ -63,6 +58,27 @@ export const EditUser = async (normalizedUser: NormalizedEditUser) => {
       userToServer
     );
     console.log(data);
+    return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+};
+export const ChangeBizStatus = async (userID: string) => {
+  try {
+    const { data } = await axios.patch(`${apiUrl}/users/${userID}`);
+
+    return Promise.resolve(data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+};
+
+export const DeleteUser = async (userID: string) => {
+  try {
+    const { data } = await axios.delete(`${apiUrl}/users/${userID}`);
+
     return Promise.resolve(data);
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);

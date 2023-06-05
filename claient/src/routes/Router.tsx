@@ -44,12 +44,14 @@ import CreateCardPage from "../cards/pages/CreateCardPage";
 import EditUserPage from "../users/pages/EditUserPage";
 import FavCardsPage from "../cards/pages/FavCardsPage";
 import UserProfile from "../users/pages/UserProfile";
+import CrmPage from "../users/pages/CrmPage";
 
 const Router = () => {
   return (
     <Routes>
       <Route path={ROUTES.ROOT} element={<CardsPage />} />
       <Route path={ROUTES.CARDS} element={<CardsPage />} />
+      <Route path={ROUTES.CRM} element={<CrmPage />} />
       <Route path={`${ROUTES.CARD_EDIT}/:cardId`} element={<CardEditPage />} />
       <Route path={`${ROUTES.USER_EDIT}/:userId`} element={<EditUserPage />} />
       <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />

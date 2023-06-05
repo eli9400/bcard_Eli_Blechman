@@ -6,7 +6,15 @@ import {
   TokenType,
   userMapToModelType,
 } from "../models/types/userTypes";
-import { EditUser, GetUser, createUser, login } from "../services/userApi";
+import {
+  ChangeBizStatus,
+  DeleteUser,
+  EditUser,
+  GetUser,
+  GetUsers,
+  createUser,
+  login,
+} from "../services/userApi";
 import {
   getUser,
   removeToken,
@@ -59,13 +67,22 @@ const useUsers = () => {
     },
     [userData]
   );
+  const handleGetUsers = useCallback(async () => {
+    try {
+      setLoading(true);
+
+      const Users = await GetUsers();
+      if (Users) return Users;
+    } catch (error) {
+      if (typeof error === "string") requestStatus(false, error, null, null);
+    }
+  }, []);
   const handelSignUp = useCallback(
     async (user: UserFromClient) => {
       try {
-        setLoading(false);
+        setLoading(true);
         const normalizedUser = normalizeUser(user);
         const newUser = await createUser(normalizedUser);
-        /* console.log(newUser); */
 
         requestStatus(false, null, null, null);
         snack("success", "The user has been successfully Created");
@@ -118,6 +135,22 @@ const useUsers = () => {
     setUser(null);
     navigate(ROUTES.ROOT);
   }, [setUser]);
+  const handleChangeStatusBiz = useCallback(async (userID: string) => {
+    try {
+      setLoading(true);
+      const biz = ChangeBizStatus(userID);
+    } catch (error) {
+      if (typeof error === "string") requestStatus(false, error, null, null);
+    }
+  }, []);
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      setLoading(true);
+      await DeleteUser(userId);
+    } catch (error) {
+      if (typeof error === "string") requestStatus(false, error, null, null);
+    }
+  };
 
   const value = useMemo(() => {
     return { isLoading, error, user, userData };
@@ -130,6 +163,9 @@ const useUsers = () => {
     handelSignUp,
     handelEditUser,
     handelGetUser,
+    handleGetUsers,
+    handleChangeStatusBiz,
+    handleDeleteUser,
   };
 };
 
