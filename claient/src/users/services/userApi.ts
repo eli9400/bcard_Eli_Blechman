@@ -39,12 +39,26 @@ export const createUser = async (user: object) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-export const login = async (user: LoginType) => {
+/* export const login = async (user: LoginType) => {
   try {
     const { data } = await axios.post<string>(`${apiUrl}/users/login`, user);
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) return Promise.reject(error.message);
+    return Promise.reject("An unexpected error occurred!");
+  }
+}; */
+export const login = async (user: LoginType) => {
+  try {
+    const { data } = await axios.post<string>(`${apiUrl}/users/login`, user);
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject(error.message);
+    }
     return Promise.reject("An unexpected error occurred!");
   }
 };

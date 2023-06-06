@@ -117,7 +117,7 @@ const useUsers = () => {
     },
     [user]
   );
-  const handleLogin = useCallback(async (user: LoginType) => {
+  /* const handleLogin = useCallback(async (user: LoginType) => {
     try {
       setLoading(true);
       const token = await login(user);
@@ -129,7 +129,22 @@ const useUsers = () => {
     } catch (error) {
       if (typeof error === "string") requestStatus(false, error, null, null);
     }
+  }, []); */
+  const handleLogin = useCallback(async (user: LoginType): Promise<void> => {
+    try {
+      setLoading(true);
+      const token = await login(user);
+      setTokenInLocalStorage(token);
+      setToken(token);
+      const userFormLocalStorage = getUser();
+      requestStatus(false, null, userFormLocalStorage, null);
+      navigate(ROUTES.CARDS);
+    } catch (error) {
+      if (typeof error === "string") requestStatus(false, error, null, null);
+      throw error; // Re-throw the error to propagate it to the caller
+    }
   }, []);
+
   const handleLogOut = useCallback(() => {
     removeToken();
     setUser(null);
