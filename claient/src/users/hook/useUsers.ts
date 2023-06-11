@@ -107,7 +107,7 @@ const useUsers = () => {
 
         const upUser = await EditUser(normalizeUser);
 
-        requestStatus(false, null, null, upUser);
+        requestStatus(false, null, user, upUser);
         snack("success", "The user has been successfully updated");
         if (user.isBusiness) return navigate(ROUTES.MY_CARDS);
         navigate(ROUTES.ROOT);
@@ -117,19 +117,7 @@ const useUsers = () => {
     },
     [user]
   );
-  /* const handleLogin = useCallback(async (user: LoginType) => {
-    try {
-      setLoading(true);
-      const token = await login(user);
-      setTokenInLocalStorage(token);
-      setToken(token);
-      const userFormLocalStorage = getUser();
-      requestStatus(false, null, userFormLocalStorage, null);
-      navigate(ROUTES.CARDS);
-    } catch (error) {
-      if (typeof error === "string") requestStatus(false, error, null, null);
-    }
-  }, []); */
+
   const handleLogin = useCallback(async (user: LoginType): Promise<void> => {
     try {
       setLoading(true);

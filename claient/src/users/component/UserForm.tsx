@@ -131,12 +131,14 @@ const UserForm: FC<Props> = ({
         type="zip"
       />
 
-      <Switch
-        name="isBusiness"
-        checked={!!data.isBusiness}
-        onChange={onInputChange}
-      />
-      <p>isBusiness</p>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Switch
+          name="isBusiness"
+          checked={!!data.isBusiness}
+          onChange={onInputChange}
+        />
+        <p>isBusiness</p>
+      </div>
 
       <Input
         data={data}
@@ -152,7 +154,7 @@ const UserForm: FC<Props> = ({
         name="alt"
         onInputChange={onInputChange}
         error={errors.alt}
-        breakPoints={{ md: 5 }}
+        breakPoints={{ md: 4 }}
       />
     </Form>
   );

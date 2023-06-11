@@ -3,11 +3,8 @@ import UserInterface from "../interfaces/userInterface";
 import {
   LoginType,
   NormalizedEditUser,
-  TokenType,
-  UserFromClient,
   userMapToModelType,
 } from "../models/types/userTypes";
-import { log } from "console";
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8181";
 export const GetUser = async (userId: string) => {
@@ -39,15 +36,7 @@ export const createUser = async (user: object) => {
     return Promise.reject("An unexpected error occurred!");
   }
 };
-/* export const login = async (user: LoginType) => {
-  try {
-    const { data } = await axios.post<string>(`${apiUrl}/users/login`, user);
-    return data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) return Promise.reject(error.message);
-    return Promise.reject("An unexpected error occurred!");
-  }
-}; */
+
 export const login = async (user: LoginType) => {
   try {
     const { data } = await axios.post<string>(`${apiUrl}/users/login`, user);

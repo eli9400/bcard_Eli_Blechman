@@ -10,6 +10,7 @@ import ROUTES from "../../routes/routesModel";
 import mapUserToModel from "../helpers/normalizations/mapUserToModel";
 
 import EditUserSchema from "../models/joi/userEditSchema";
+import { Container } from "@mui/material";
 
 const EditUserPage = () => {
   const { userId } = useParams();
@@ -37,15 +38,24 @@ const EditUserPage = () => {
 
   if (user?._id !== userId) return <Navigate replace to={ROUTES.ROOT} />;
   return (
-    <UserForm
-      data={data}
-      errors={errors}
-      onFormChange={validateForm}
-      onInputChange={handleChange}
-      onReset={handleReset}
-      onSubmit={onSubmit}
-      title="Edit account"
-    ></UserForm>
+    <Container
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh",
+      }}
+    >
+      <UserForm
+        data={data}
+        errors={errors}
+        onFormChange={validateForm}
+        onInputChange={handleChange}
+        onReset={handleReset}
+        onSubmit={onSubmit}
+        title="Edit account"
+      ></UserForm>
+    </Container>
   );
 };
 

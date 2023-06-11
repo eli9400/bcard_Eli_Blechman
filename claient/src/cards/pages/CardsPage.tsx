@@ -5,10 +5,12 @@ import Container from "@mui/material/Container";
 
 import CardFeedback from "../components/CardFeedback";
 import useCards from "../hooks/useCards";
+import { useUser } from "../../users/providers/UserProvider";
 
 const CardsPage = () => {
   const { value, handleGetCards, handleDeleteCard } = useCards();
   const { isLoading, error, filteredCard } = value;
+  const { user } = useUser();
   useEffect(() => {
     handleGetCards();
   }, []);
